@@ -460,8 +460,7 @@ pub mod pallet {
 
 				let slash_curator = |curator: &T::AccountId,
 				                     curator_deposit: &mut BalanceOf<T, I>| {
-					let imbalance = T::Currency::slash_reserved(curator, *curator_deposit).0;
-					T::OnSlash::on_unbalanced(imbalance);
+					T::Currency::slash_reserved(curator, *curator_deposit).0;
 					*curator_deposit = Zero::zero();
 				};
 
@@ -713,8 +712,7 @@ pub mod pallet {
 							// The reject origin would like to cancel a proposed bounty.
 							BountyDescriptions::<T, I>::remove(bounty_id);
 							let value = bounty.bond;
-							let imbalance = T::Currency::slash_reserved(&bounty.proposer, value).0;
-							T::OnSlash::on_unbalanced(imbalance);
+							T::Currency::slash_reserved(&bounty.proposer, value).0;
 							*maybe_bounty = None;
 
 							Self::deposit_event(Event::<T, I>::BountyRejected {
